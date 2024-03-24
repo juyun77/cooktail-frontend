@@ -1,21 +1,22 @@
 # Stage 1: Build Stage
 FROM node:14 as builder
 
-# 작업 폴더를 만들고 npm 설치
-RUN mkdir /usr/src/app
+# 작업 폴더 생성 및 설정
 WORKDIR /usr/src/app
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# 패키지.json과 package-lock.json 복사
+# 이 단계는 가능한 캐시 사용을 최대화하기 위해 먼저 실행됩니다.
+COPY package*.json ./
 
 # 패키지 설치
-RUN npm install react-scripts --save
+RUN npm install
 
-# 프로젝트 소스 코드를 복사
-COPY . /usr/src/app
+# 프로젝트 소스 코드 복사
+COPY . .
 
-# npm run build 스크립트 실행 권한 설정
-RUN chmod +x ./node_modules/.bin/react-scripts
 
-# 패키지 설치 후에 build 스크립트를 실행
+
+# 애플리케이션 빌드
 RUN npm run build
 
 # Stage 2: Production Stage
