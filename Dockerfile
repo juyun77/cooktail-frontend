@@ -1,29 +1,22 @@
-# Stage 1: Build Stage
-FROM node:14 AS builder
+# 가져올 이미지를 정의
+FROM node:14
 
-# 작업 폴더 생성 및 설정
+
+# 경로 설정하기
 WORKDIR /app
 
-# 패키지.json과 package-lock.json을 작업 폴더로 복사
-COPY package*.json ./
 
-# 의존성 설치
+# package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
+COPY package.json .
+
+# 명령어 실행 (의존성 설치)
 RUN npm install
 
-# 프로젝트 소스 코드 복사
+# 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사한다.
 COPY . .
 
-# React 애플리케이션 빌드
-RUN npm run build
+# 3000번 포트 노출
+EXPOSE 3000
 
-# Stage 2: Production Stage
-FROM nginx:stable-alpine
-
-# 빌드된 React 애플리케이션 파일을 Nginx의 정적 파일 서빙 경로로 복사
-COPY --from=builder /app/build /usr/share/nginx/html
-
-# 80포트 열기
-EXPOSE 80
-
-# Nginx 실행
-CMD ["nginx", "-g", "daemon off;"]
+# npm start 스크립트 실행
+CMD ["npm", "start"]
