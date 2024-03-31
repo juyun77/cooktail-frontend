@@ -44,7 +44,14 @@ const Header = () => {
         <ul>
           <NavItem><Link to="/cocktails">칵테일 레시피</Link></NavItem>
           <NavItem><Link to="/cooks">안주 레시피</Link></NavItem>
-          <NavItem><Link to="/mypage">마이 페이지</Link></NavItem>
+          <NavItem>
+            {isLoggedIn ? (
+              <Link to="/mypage">마이 페이지</Link>
+            ) : (
+              // 로그인되지 않은 상태에서 클릭하면 경고 메시지 표시
+              <Link onClick={() => alert('로그인 후 이용해주세요.')}>마이 페이지</Link>
+            )}
+          </NavItem>
         </ul>
       </Navigation>
       <UserActions>
@@ -93,6 +100,7 @@ const NavItem = styled.li`
     color: #000;
     font-weight: bold;
     font-size: 15px;
+    cursor: pointer; /* 커서를 포인터로 변경 */
   }
 `;
 

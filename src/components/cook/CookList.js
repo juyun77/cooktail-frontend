@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import CocktailItem from './CocktailItem';
+import CookItem from './CookItem';
 import SortingOptions from './SortingOptions';
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../../api/Auth';
 
-const CocktailList = ({ cocktails, onSortClick, onSearch }) => {
+const CookList = ({ cooks, onSortClick, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const CocktailList = ({ cocktails, onSortClick, onSearch }) => {
       alert('로그인이 필요합니다.');
       return;
     }
-    navigate('/cocktails/create');
+    navigate('/cooks/create');
   };
   
 
@@ -43,8 +43,8 @@ const CocktailList = ({ cocktails, onSortClick, onSearch }) => {
       </SearchContainer>
       <SortingOptions onSortClick={onSortClick} />
       <List>
-        {cocktails.map((cocktails) => (
-          <CocktailItem key={cocktails.id} cocktails={cocktails} />
+        {cooks.map((cooks) => (
+          <CookItem key={cooks.id} cooks={cooks} />
         ))}
       </List>
     </ListContainer>
@@ -115,4 +115,4 @@ const List = styled.ul`
   }
 `;
 
-export default CocktailList;
+export default CookList;
